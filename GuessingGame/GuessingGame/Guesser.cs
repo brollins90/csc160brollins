@@ -15,10 +15,11 @@ namespace GuessingGame
             _Random = new Random();
         }
 
-        public abstract int MakeGuess(int maxValue);
+        public abstract int MakeGuess(int maxValue, int numGuesses);
         public abstract void SayTooHigh();
         public abstract void SayTooLow();
-        public abstract void SayYouWin();
+        public abstract void SayYouWin(int numGuesses);
+        public abstract void SayYouLose(int secretNumber);
 
     }
 }

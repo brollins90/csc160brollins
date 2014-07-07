@@ -8,7 +8,9 @@ namespace GuessingGame
 {
     class Game
     {
-
+        /// <summary>
+        /// Plays the Guess A Number game
+        /// </summary>
         public void play()
         {
             Thinker thinker = new Thinker();
@@ -16,6 +18,8 @@ namespace GuessingGame
 
             do
             {
+                Console.WriteLine("");
+                Console.WriteLine("--------------------------------------------------");
                 Console.WriteLine("What difficulty?\n1: Easy (1-10, 3 guesses)\n2: Medium (1-50, 10 guesses)\n3: Hard (1-100, 10 guesses)");
                 int difficulty = 0;
                 do
@@ -34,22 +38,23 @@ namespace GuessingGame
                     }
                 } while (difficulty < 1 || difficulty > 3);
                 Console.WriteLine("You chose: " + difficulty);
-                
+
                 int maxValue;
-                int numGuesses;
+                int guessesLeft;
                 switch (difficulty)
                 {
                     case 1:
+                    default:
                         maxValue = 10;
-                        numGuesses = 3;
+                        guessesLeft = 3;
                         break;
                     case 2:
                         maxValue = 50;
-                        numGuesses = 10;
+                        guessesLeft = 10;
                         break;
                     case 3:
                         maxValue = 100;
-                        numGuesses = 10;
+                        guessesLeft = 10;
                         break;
                 }
 
@@ -61,20 +66,34 @@ namespace GuessingGame
                 int guess = -1;
                 do
                 {
-                    guess = guesser.makeGuess(maxValue);
+                    guess = guesser.MakeGuess(maxValue, guessesLeft--);
                     guessCount++;
 
-                    if (thinker.isGuessTooHigh(guess))
+                    if (thinker.IsGuessTooHigh(guess))
                     {
-                        guesser.sayTooHigh();
+                        guesser.SayTooHigh();
                     }
-                    else if (thinker.isGuessTooLow(guess))
+                    else if (thinker.IsGuessTooLow(guess))
                     {
-                        guesser.sayTooLow();
+                        guesser.SayTooLow();
                     }
-                } while (!thinker.isCorrectGuess(guess));
+                    else if (thinker.IsGuessCorrect(guess))
+                    {
+                        guesser.SayYouWin(guessCount);
+                        guessesLeft = -1;
+                    }
 
-                Console.WriteLine("You win.  It took " + guessCount + " guesses");
+                    if (guessesLeft == 0)
+                    {
+                        guesser.SayYouLose(thinker.SecretNumber);
+                    }
+                } while (guessesLeft > 0);
+
+                Console.WriteLine("");
+                Console.WriteLine("");
+                Console.WriteLine("Would you like to play again?");
+                String playAgain = Console.ReadLine();
+                stillPlaying = (playAgain.ToLower().ToCharArray()[0] == 'y');
 
             } while (stillPlaying);
 
