@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GuessingGame
 {
+    /// <summary>
+    /// The thinker is the part of the game that comes up with the number.
+    /// </summary>
     class Thinker
     {
         private Random _Random;

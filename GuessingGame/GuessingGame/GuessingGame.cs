@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GuessingGame
 {
-    class Game
+    class GuessingGame
     {
         /// <summary>
         /// Plays the Guess A Number game

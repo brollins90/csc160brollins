@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GuessingGame
 {
+    /// <summary>
+    /// A version of the Guesser that takes input from a User at the Console.
+    /// </summary>
     class UserGuesser : Guesser
     {
         private int _PreviousGuess;

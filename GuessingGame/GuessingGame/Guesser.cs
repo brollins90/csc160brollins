@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GuessingGame
 {
+    /// <summary>
+    /// The Guesser is an abstract class that represents a Guesser
+    /// </summary>
     public abstract class Guesser
     {
         protected Random _Random;
