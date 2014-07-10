@@ -25,7 +25,7 @@
             </StackPanel.Background>-->
             <TextBlock Margin="5" FontSize="20" HorizontalAlignment="Center">Shape</TextBlock>
             <Button Content="Random" Margin="5" Name="buttonShapeRandom" Click="ShapeButton_Click"></Button>
-            <Button Content="Triangle" Margin="5" Name="buttonShapeTriangle" Click="ShapeButton_Click"></Button>
+            <Button Content="Ellipse" Margin="5" Name="buttonShapeElipse" Click="ShapeButton_Click"></Button>
             <Button Content="Rectangle" Margin="5" Name="buttonShapeRectangle" Click="ShapeButton_Click"></Button>
             <TextBlock Margin="5" FontSize="20" HorizontalAlignment="Center">Color</TextBlock>
             <Button Content="Random" Margin="5" Name="buttonColorRandom" Click="ColorButton_Click"></Button>

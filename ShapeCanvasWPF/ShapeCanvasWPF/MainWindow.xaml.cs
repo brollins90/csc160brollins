@@ -18,9 +18,9 @@ using System.Windows.Automation.Provider;
 namespace ShapeCanvasWPF
 {
 
-    enum ShapeToCreate
+    enum ShapeType
     {
-        RANDOM, TRIANGLE, RECTANGLE
+        RANDOM, ELLIPSE, RECTANGLE
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ namespace ShapeCanvasWPF
         Random _Random = new Random();
         Point _CurrentPoint = new Point();
         SolidColorBrush _CurrentColor = new SolidColorBrush(); //.FromArgb(255, 0, 0, 0);
-        ShapeToCreate _NextShapeToCreate;
+        ShapeType _NextShapeToCreate;
         TextBlock _NextShapeText;
 
         public MainWindow()
@@ -72,11 +72,12 @@ namespace ShapeCanvasWPF
             _CurrentColor.Color = currentColor;
         }
 
-        private void SetShape(ShapeToCreate nextShape)
+        private void SetShape(ShapeType nextShape)
         {
-            if (nextShape == ShapeToCreate.RANDOM)
+            if (nextShape == ShapeType.RANDOM)
             {
-                _NextShapeToCreate = (ShapeToCreate)(_Random.Next(0, (Enum.GetNames(typeof(ShapeToCreate)).Length - 1)) + 1);
+                _NextShapeToCreate = (ShapeType)_Random.Next(0, Enum.GetNames(typeof(ShapeType)).Length);
+                //_NextShapeToCreate = (ShapeToCreate)(_Random.Next(0, (Enum.GetNames(typeof(ShapeToCreate)).Length - 1)) + 1);
             }
             else
             {
@@ -110,15 +111,15 @@ namespace ShapeCanvasWPF
         {
             if (e.Source == buttonShapeRandom)
             {
-                SetShape(ShapeToCreate.RANDOM);
+                SetShape(ShapeType.RANDOM);
             }
             else if (e.Source == buttonShapeRectangle)
             {
-                SetShape(ShapeToCreate.RANDOM);
+                SetShape(ShapeType.RANDOM);
             }
-            else if (e.Source == buttonShapeTriangle)
+            else if (e.Source == buttonShapeElipse)
             {
-                SetShape(ShapeToCreate.TRIANGLE);
+                SetShape(ShapeType.ELLIPSE);
             }
 
         }
@@ -126,6 +127,27 @@ namespace ShapeCanvasWPF
         private void PlayCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _CurrentPoint = e.GetPosition(this);
+            ShapeType nextShapeType = (_NextShapeToCreate == ShapeType.RANDOM) ? (ShapeType)(_Random.Next(0, (Enum.GetNames(typeof(ShapeType)).Length - 1)) + 1) : _NextShapeToCreate;
+            Shape temp = null;
+
+            switch (nextShapeType)
+            {
+                case ShapeType.ELLIPSE:
+                    temp = new Ellipse();
+                    break;
+                default:
+                case ShapeType.RECTANGLE:
+                    temp = new Rectangle();
+                    break;
+            }
+            SolidColorBrush tempColor = new SolidColorBrush(_CurrentColor.Color);
+            temp.Stroke = tempColor;
+            temp.Fill = tempColor;
+            temp.Width = 10;
+            temp.Height = 10;
+            PlayCanvas.Children.Add(temp);
+            Canvas.SetTop(temp, _CurrentPoint.Y);
+            Canvas.SetLeft(temp, _CurrentPoint.X);
         }
 
         private void PlayCanvas_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -135,21 +157,44 @@ namespace ShapeCanvasWPF
 
         private void PlayCanvas_MouseMove_1(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                Line line = new Line();
+            //if (e.LeftButton == MouseButtonState.Pressed)
+            //{
+            //    ShapeToCreate nextShapeType = (_NextShapeToCreate == ShapeToCreate.RANDOM) ? (ShapeToCreate)(_Random.Next(0, (Enum.GetNames(typeof(ShapeToCreate)).Length - 1)) + 1) : _NextShapeToCreate;
+            //    Shape temp = null;
 
-                //line.Stroke = SystemColors.WindowFrameBrush;
-                line.Stroke = new SolidColorBrush(_CurrentColor.Color);
-                line.X1 = _CurrentPoint.X;
-                line.Y1 = _CurrentPoint.Y;
-                line.X2 = e.GetPosition(this).X;
-                line.Y2 = e.GetPosition(this).Y;
+            //    switch (nextShapeType)
+            //    {
+            //        case ShapeToCreate.ELLIPSE:
+            //            temp = new Ellipse();
+            //            break;
+            //        default:
+            //        case ShapeToCreate.RECTANGLE:
+            //            temp = new Rectangle();
+            //            break;
+            //    }
+            //    SolidColorBrush tempColor = new SolidColorBrush(_CurrentColor.Color);
+            //    temp.Stroke = tempColor;
+            //    temp.Fill = tempColor;
+            //    temp.Width = 10;
+            //    temp.Height = 10;
+            //    PlayCanvas.Children.Add(temp);
+            //    Canvas.SetTop(temp, e.GetPosition(this).Y);
+            //    Canvas.SetLeft(temp, e.GetPosition(this).X);
 
-                _CurrentPoint = e.GetPosition(this);
 
-                PlayCanvas.Children.Add(line);
-            }
+            //    //Line line = new Line();
+
+            //    ////line.Stroke = SystemColors.WindowFrameBrush;
+            //    //line.Stroke = new SolidColorBrush(_CurrentColor.Color);
+            //    //line.X1 = _CurrentPoint.X;
+            //    //line.Y1 = _CurrentPoint.Y;
+            //    //line.X2 = e.GetPosition(this).X;
+            //    //line.Y2 = e.GetPosition(this).Y;
+
+            //    _CurrentPoint = e.GetPosition(this);
+
+            //    //PlayCanvas.Children.Add(line);
+            //}
         }
 
     }
