@@ -12,6 +12,25 @@ namespace ConsoleMenuTest
     {
         static void Main(string[] args)
         {
+            //try
+            //{
+
+            //    //IEnumerable<string> options = new List<string>() { };
+            //    //Console.WriteLine("Choose an option.");
+            //    //int fromMenuFalse = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(options, false);
+            //    //Console.WriteLine("fromMenuFalse: " + fromMenuFalse);
+
+
+            //    byte byte1 = CSC160_ConsoleMenu.CIO.PromptForByte("Enter a byte between 1 and 10.", 10, 10);
+            //    Console.WriteLine("byte1: " + byte1);
+
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
+
+
             IEnumerable<string> options = new List<string>() { "Option 1", "Option 2" };
             Console.WriteLine("Choose an option.");
             int fromMenuFalse = CSC160_ConsoleMenu.CIO.PromptForMenuSelection(options, false);

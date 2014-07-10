@@ -24,6 +24,33 @@ namespace CSC160_ConsoleMenu
         /// <returns>The value entered at the Console</returns>
         private static T PromptForGeneric<T>(string prompt, T? min, T? max, Func<string, T> parser) where T : struct, IComparable<T>
         {
+            if (prompt == null)
+            {
+                throw new ArgumentException("The prompt cannot be empty.");
+            }
+            if (min != null)
+            {
+                if (max != null)
+                {
+                    T minTemp = (T)min;
+                    if (minTemp.CompareTo((T)max) > 0)
+                    {
+                        throw new ArgumentException("min must be less than max");
+                    }
+                    else
+                    {
+                        // we good
+                    }
+                }
+            }
+            else
+            {
+                if (max != null)
+                {
+                    throw new ArgumentException("cannot specify a max without a min.");
+                }
+            }
+
             Console.WriteLine(prompt);
             bool isValid = false;
             T result = default(T);
@@ -239,6 +266,10 @@ namespace CSC160_ConsoleMenu
         {
             int minMenuItem = (withQuit) ? 0 : 1;
             int maxMenuItem = options.Count();
+            if (maxMenuItem == 0 /*|| minMenuItem > maxMenuItem */)
+            {
+                throw new ArgumentException("The list of options cannot be empty.");
+            }
 
             if (withQuit)
             {
