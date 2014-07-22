@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Binding
 {
-    public enum HairColor
+    public enum HairColorEnum
     {
         Blond, Burnette, Ginger, Bald
     }

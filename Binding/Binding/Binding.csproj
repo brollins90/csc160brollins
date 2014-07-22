@@ -61,8 +61,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EyeColor.cs" />
-    <Compile Include="HairColor.cs" />
+    <Compile Include="EyeColorEnum.cs" />
+    <Compile Include="HairColorEnum.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

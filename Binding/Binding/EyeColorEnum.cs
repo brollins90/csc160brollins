@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Binding
 {
-    public enum EyeColor
+    public enum EyeColorEnum
     {
         Green, Blue, Yellow, Brown
     }
