@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
+//using System.Windows.Automation.Provider;
 
 namespace GameOfLife
 {
@@ -39,6 +40,15 @@ namespace GameOfLife
             cellsThisRound = new bool[NumberOfColumns, NumberOfRows];
 
             InitializeComponent();
+            StackPanel sp = new StackPanel();
+
+            Button b1 = new Button();
+            b1.Click += ProceedButton_Click;
+            b1.Height = 50;
+            b1.Content = "push";
+            sp.Children.Add(b1);
+            
+
             Grid g = new Grid();
             g.ShowGridLines = true;
 
@@ -77,9 +87,22 @@ namespace GameOfLife
                     Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
                 }
             }
-            this.Content = g;
+            sp.Children.Add(g);
+            this.Content = sp;
+            
+            //PushButtonProgrammatically(b1);
 
         }
+        private void ProceedButton_Click(object sender, EventArgs e)
+        {
+            ProcessStep();
+        }
+        //private void PushButtonProgrammatically(Button buttonToPush)
+        //{
+        //    ButtonAutomationPeer peer = new ButtonAutomationPeer(buttonToPush);
+        //    IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
+        //    invokeProv.Invoke();
+        //}
 
         public Cell GetCellAt(int col, int row)
         {
