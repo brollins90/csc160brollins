@@ -86,7 +86,7 @@ namespace ShapeCanvasWPFv2.Models
             Brush = new SolidColorBrush(Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B));
         }
 
-        public ColorSelectorModel(int a = 255, int r = 0, int g = 0, int b = 0)
+        public ColorSelectorModel(int a = 255, int r = 127, int g = 127, int b = 127)
         {
             A = a;
             R = r;

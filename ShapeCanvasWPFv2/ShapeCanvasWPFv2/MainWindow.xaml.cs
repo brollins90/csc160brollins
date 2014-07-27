@@ -36,6 +36,7 @@ namespace ShapeCanvasWPFv2
         int _MinHeight = 25, _MaxHeight = 65;
         int _MinWidth = 25, _MaxWidth = 65;
         Shape _NextShape;
+        Brush CanvasBG;
 
         public MainWindow()
         {
@@ -61,6 +62,8 @@ namespace ShapeCanvasWPFv2
 
             PushButtonProgrammatically(buttonColorRandom);
             PushButtonProgrammatically(buttonShapeRandom);
+            PushButtonProgrammatically(buttonBGColor);
+
         }
 
         /// <summary>
@@ -100,7 +103,8 @@ namespace ShapeCanvasWPFv2
         /// <param name="e"></param>
         private void ChangeBGButton_Click(object sender, RoutedEventArgs e)
         {
-
+            CanvasBG = ColorSelector.Model.Brush;// new SolidColorBrush(ColorSelector.Model.Brush);
+            PlayCanvas.Background = CanvasBG;
         }
 
         /// <summary>

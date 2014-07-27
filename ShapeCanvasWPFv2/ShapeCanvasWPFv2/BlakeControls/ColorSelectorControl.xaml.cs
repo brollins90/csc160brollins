@@ -30,8 +30,16 @@ namespace ShapeCanvasWPFv2.BlakeControls
         public ColorSelectorControl()
         {
             InitializeComponent();
-            Model = new ColorSelectorModel(127,127,127,127);
+            Model = new ColorSelectorModel();
             DataContext = Model;
+            //Grid TransparentLinesGrid = new Grid();
+            //TransparentLinesGrid.ShowGridLines = true;
+            for (int i = 0; i < 5; i++) { 
+                TransparentLinesGrid.RowDefinitions.Add(new RowDefinition());
+                TransparentLinesGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            
+            //ColorSelectorPanel.Children.Add(TransparentLinesGrid);
             //ColorPreview.DataContext = this;
         }
     }

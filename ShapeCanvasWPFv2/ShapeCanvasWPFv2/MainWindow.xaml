@@ -8,14 +8,14 @@
             <ColumnDefinition Width="65*" />
             <ColumnDefinition Width="35*" />
         </Grid.ColumnDefinitions>
-        <Canvas Grid.Column="0" Name="PlayCanvas" MouseLeftButtonDown="PlayCanvas_MouseLeftButtonDown" MouseRightButtonDown="PlayCanvas_MouseRightButtonDown" MouseMove="PlayCanvas_MouseMove_1" >
-            <Canvas.Background>
-                <!--<SolidColorBrush Color="White" Opacity="0"/>-->
+        <Canvas Grid.Column="0" Name="PlayCanvas" MouseLeftButtonDown="PlayCanvas_MouseLeftButtonDown" MouseRightButtonDown="PlayCanvas_MouseRightButtonDown" MouseMove="PlayCanvas_MouseMove_1" Background="{Binding Path=CanvasBG}" >
+            <!--<Canvas.Background>
+                --><!--<SolidColorBrush Color="White" Opacity="0"/>--><!--
                 <LinearGradientBrush EndPoint="1.204,0.5" StartPoint="0.056,0.5">
                     <GradientStop Color="#abcdef" Offset="1" />
                     <GradientStop Color="#93CCEA" Offset="0" />
                 </LinearGradientBrush>
-            </Canvas.Background>
+            </Canvas.Background>-->
         </Canvas>
         <StackPanel Grid.Column="1" Name="ControlPanel" >
             <StackPanel.Background>
@@ -37,7 +37,7 @@
             <Button Content="Blue" Margin="5" Name="buttonColorBlue" Click="ColorButton_Click"></Button>
 
             <TextBlock Margin="5" FontSize="20" HorizontalAlignment="Center">Clear</TextBlock>
-            <bc:ColorSelectorControl/>
+            <bc:ColorSelectorControl x:Name="ColorSelector"/>
             <Button Content="Change Canvas" Margin="5" Name="buttonBGColor" Click="ChangeBGButton_Click"></Button>
 
             <TextBlock Margin="5" FontSize="20" HorizontalAlignment="Center">Clear</TextBlock>

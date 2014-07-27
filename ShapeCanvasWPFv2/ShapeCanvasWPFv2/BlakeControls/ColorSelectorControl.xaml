@@ -14,49 +14,48 @@
             <Setter Property="Height" Value="25" />
         </Style>
     </UserControl.Resources>
-    <StackPanel x:Name="colorSelectorPanel">
-        <Grid>
+    <Grid x:Name="ColorSelectorPanel">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="67*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="TransparentLinesGrid" Grid.Column="0" Grid.Row="0" ShowGridLines="True"></Grid>
+        <Label x:Name="ColorPreview" Grid.Column="0" Grid.Row="0" Background="{Binding Path=Brush, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="33*"/>
-                <ColumnDefinition Width="67*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition/>
+                <RowDefinition Style="{StaticResource SliderRowStyle}"/>
+                <RowDefinition Style="{StaticResource SliderRowStyle}"/>
+                <RowDefinition Style="{StaticResource SliderRowStyle}"/>
+                <RowDefinition Style="{StaticResource SliderRowStyle}"/>
             </Grid.RowDefinitions>
-            <Label x:Name="ColorPreview" Grid.Column="0" Grid.Row="0" Background="{Binding Path=Brush, UpdateSourceTrigger=PropertyChanged}"/>
-            <Grid Grid.Column="1" Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="60*"/>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="15*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Style="{StaticResource SliderRowStyle}"/>
-                    <RowDefinition Style="{StaticResource SliderRowStyle}"/>
-                    <RowDefinition Style="{StaticResource SliderRowStyle}"/>
-                    <RowDefinition Style="{StaticResource SliderRowStyle}"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0">A</Label>
-                <Slider x:Name="aSlider" Grid.Column="1" Grid.Row="0" Value="{Binding Path=A}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding ElementName=aSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding ElementName=aSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Column="0" Grid.Row="0">A</Label>
+            <Slider x:Name="aSlider" Grid.Column="1" Grid.Row="0" Value="{Binding Path=A}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding ElementName=aSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Column="3" Grid.Row="0" Text="{Binding ElementName=aSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-                <Label Grid.Column="0" Grid.Row="1">R</Label>
-                <Slider x:Name="rSlider" Grid.Column="1" Grid.Row="1" Value="{Binding Path=R}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding ElementName=rSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding ElementName=rSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Column="0" Grid.Row="1">R</Label>
+            <Slider x:Name="rSlider" Grid.Column="1" Grid.Row="1" Value="{Binding Path=R}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding ElementName=rSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Column="3" Grid.Row="1" Text="{Binding ElementName=rSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-                <Label Grid.Column="0" Grid.Row="2">G</Label>
-                <Slider x:Name="gSlider" Grid.Column="1" Grid.Row="2" Value="{Binding Path=G}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding ElementName=gSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding ElementName=gSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Column="0" Grid.Row="2">G</Label>
+            <Slider x:Name="gSlider" Grid.Column="1" Grid.Row="2" Value="{Binding Path=G}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding ElementName=gSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Column="3" Grid.Row="2" Text="{Binding ElementName=gSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-                <Label Grid.Column="0" Grid.Row="3">B</Label>
-                <Slider x:Name="bSlider" Grid.Column="1" Grid.Row="3" Value="{Binding Path=B}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
-                <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding ElementName=bSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ElementName=bSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            </Grid>
+            <Label Grid.Column="0" Grid.Row="3">B</Label>
+            <Slider x:Name="bSlider" Grid.Column="1" Grid.Row="3" Value="{Binding Path=B}" Minimum="0" Maximum="255" TickFrequency="1" IsSnapToTickEnabled="True"></Slider>
+            <TextBox Grid.Column="2" Grid.Row="3" Text="{Binding ElementName=bSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Column="3" Grid.Row="3" Text="{Binding ElementName=bSlider, Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </Grid>
-    </StackPanel>
+    </Grid>
 </UserControl>
