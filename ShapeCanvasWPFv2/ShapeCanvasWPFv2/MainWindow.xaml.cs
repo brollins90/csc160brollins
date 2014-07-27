@@ -134,6 +134,12 @@ namespace ShapeCanvasWPFv2
                 SetColor(Color.FromArgb(255, (byte)_Random.Next(255), (byte)_Random.Next(255), (byte)_Random.Next(255)));
                 _RandomColor = true;
             }
+            else if (e.Source == buttonColorFromControl)
+            {
+                SolidColorBrush temp = (SolidColorBrush)ColorSelector.Model.Brush;
+                SetColor(temp.Color);
+                _RandomColor = false;
+            }
         }
 
         /// <summary>

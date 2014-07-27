@@ -35,7 +35,8 @@
             <Button Content="Red" Margin="5" Name="buttonColorRed" Click="ColorButton_Click"></Button>
             <Button Content="Green" Margin="5" Name="buttonColorGreen" Click="ColorButton_Click"></Button>
             <Button Content="Blue" Margin="5" Name="buttonColorBlue" Click="ColorButton_Click"></Button>
-
+            <Button Content="From Control" Margin="5" Name="buttonColorFromControl" Click="ColorButton_Click"></Button>
+            
             <TextBlock Margin="5" FontSize="20" HorizontalAlignment="Center">Clear</TextBlock>
             <bc:ColorSelectorControl x:Name="ColorSelector"/>
             <Button Content="Change Canvas" Margin="5" Name="buttonBGColor" Click="ChangeBGButton_Click"></Button>

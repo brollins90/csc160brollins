@@ -43,19 +43,27 @@ namespace ShapeCanvasWPFv2.BlakeControls
             //ColorPreview.DataContext = this;
         }
     }
-
-    public class ColorToBrushConverter : IValueConverter
+    
+    public class ByteToHexStringConverter : IValueConverter
     {
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Color c = (Color)value;
-            return new SolidColorBrush(c);
+            double d = (double)value;
+            int retVal = (int)d;
+            return retVal.ToString("X");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string hex = (string)value;
+            try { 
+                return int.Parse(hex, System.Globalization.NumberStyles.HexNumber);
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
     }
 }

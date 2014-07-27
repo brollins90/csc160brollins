@@ -22,8 +22,8 @@ namespace ShapeCanvasWPFv2.Models
             }
         }
 
-        private int _A;
-        public int A
+        private byte _A;
+        public byte A
         {
             get { return _A; }
             set
@@ -34,8 +34,8 @@ namespace ShapeCanvasWPFv2.Models
             }
         }
 
-        private int _R;
-        public int R
+        private byte _R;
+        public byte R
         {
             get { return _R; }
             set
@@ -46,8 +46,8 @@ namespace ShapeCanvasWPFv2.Models
             }
         }
 
-        private int _G;
-        public int G
+        private byte _G;
+        public byte G
         {
             get { return _G; }
             set
@@ -58,8 +58,8 @@ namespace ShapeCanvasWPFv2.Models
             }
         }
 
-        private int _B;
-        public int B
+        private byte _B;
+        public byte B
         {
             get { return _B; }
             set
@@ -83,10 +83,10 @@ namespace ShapeCanvasWPFv2.Models
 
         private void GenerateBrush()
         {
-            Brush = new SolidColorBrush(Color.FromArgb((byte)A, (byte)R, (byte)G, (byte)B));
+            Brush = new SolidColorBrush(Color.FromArgb(A,R,G,B));
         }
 
-        public ColorSelectorModel(int a = 255, int r = 127, int g = 127, int b = 127)
+        public ColorSelectorModel(byte a = 255, byte r = 127, byte g = 127, byte b = 127)
         {
             A = a;
             R = r;
