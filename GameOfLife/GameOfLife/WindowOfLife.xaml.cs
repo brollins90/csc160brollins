@@ -26,84 +26,68 @@ namespace GameOfLife
         public int NumberOfColumns { get; set; }
         private Cell[,] cells;
         private bool[,] cellsThisRound;
+        private Grid GameGrid;
 
 
 
         public WindowOfLife()
         {
-            NumberOfColumns = 10;
-            NumberOfRows = 10;
-            int counter = 0;
-            int onCount = 4;
-            cells = new Cell[NumberOfColumns,NumberOfRows];
-            //cellsNext = new Cell[NumberOfColumns,NumberOfRows];
-            cellsThisRound = new bool[NumberOfColumns, NumberOfRows];
+            //NumberOfColumns = 10;
+            //NumberOfRows = 10;
+            //int counter = 0;
+            //int onCount = 4;
+            //cells = new Cell[NumberOfColumns,NumberOfRows];
+            //cellsThisRound = new bool[NumberOfColumns, NumberOfRows];
 
             InitializeComponent();
-            StackPanel sp = new StackPanel();
 
-            Button b1 = new Button();
-            b1.Click += ProceedButton_Click;
-            b1.Height = 50;
-            b1.Content = "push";
-            sp.Children.Add(b1);
-            
+            //Button b1 = new Button();
+            //b1.Click += ProceedButton_Click;
+            //b1.Height = 50;
+            //b1.Content = "push";
+            //GameControls.Children.Add(b1);
 
-            Grid g = new Grid();
-            g.ShowGridLines = true;
 
-            for (int i = 0; i < NumberOfColumns; i++)
-            {
-                g.ColumnDefinitions.Add(new ColumnDefinition());
-            }
-            for (int i = 0; i < NumberOfRows; i++)
-            {
-                g.RowDefinitions.Add(new RowDefinition());
-            }
-            for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
-            {
-                for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
-                {
-                    Label tempLabel = new Label();
-                    Cell tempCell = new Cell();
-                    tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
-                    tempLabel.DataContext = tempCell;
-                    tempLabel.Content = string.Format("{0},{1}", colIndex,rowIndex);
+            //GameGrid = new Grid();
+            //GameGrid.ShowGridLines = true;
 
-                    var bind = new Binding("Alive")
-                    {
-                        Converter = new AliveToColorConverter()//,
-//                        ConverterParameter = key
-                    };
+            //for (int i = 0; i < NumberOfColumns; i++)
+            //{
+            //    GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            //}
+            //for (int i = 0; i < NumberOfRows; i++)
+            //{
+            //    GameGrid.RowDefinitions.Add(new RowDefinition());
+            //}
+            //for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
+            //{
+            //    for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
+            //    {
+            //        Label tempLabel = new Label();
+            //        Cell tempCell = new Cell();
+            //        tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
+            //        tempLabel.DataContext = tempCell;
+            //        tempLabel.Content = string.Format("{0},{1}", colIndex,rowIndex);
+            //        tempLabel.MouseLeftButtonDown += Cell_Click;
 
-                    tempLabel.SetBinding(Label.BackgroundProperty, bind);
+            //        var bind = new Binding("Alive")
+            //        {
+            //            Converter = new AliveToColorConverter()
+            //        };
 
-                    //tempLabel.Background = tempCell.Alive ? AliveToColorConverter.AliveBrush : AliveToColorConverter.DeadBrush;
+            //        tempLabel.SetBinding(Label.BackgroundProperty, bind);
 
-                    g.Children.Add(tempLabel);
-                    Grid.SetColumn(tempLabel, colIndex);
-                    Grid.SetRow(tempLabel, rowIndex);
-                    cells[colIndex,rowIndex] = tempCell;
-                    Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
-                }
-            }
-            sp.Children.Add(g);
-            this.Content = sp;
-            
-            //PushButtonProgrammatically(b1);
-
+            //        GameGrid.Children.Add(tempLabel);
+            //        Grid.SetColumn(tempLabel, colIndex);
+            //        Grid.SetRow(tempLabel, rowIndex);
+            //        cells[colIndex,rowIndex] = tempCell;
+            //        //Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
+            //    }
+            //}
+            //GameFrame.Children.Add(GameGrid);
+            //this.Content = GameFrame;
         }
-        private void ProceedButton_Click(object sender, EventArgs e)
-        {
-            ProcessStep();
-        }
-        //private void PushButtonProgrammatically(Button buttonToPush)
-        //{
-        //    ButtonAutomationPeer peer = new ButtonAutomationPeer(buttonToPush);
-        //    IInvokeProvider invokeProv = peer.GetPattern(PatternInterface.Invoke) as IInvokeProvider;
-        //    invokeProv.Invoke();
-        //}
-
+        
         public Cell GetCellAt(int col, int row)
         {
             if (col > -1 && col < NumberOfColumns && row > -1 && row < NumberOfRows)
@@ -171,6 +155,69 @@ namespace GameOfLife
                     cells[i, j].Alive = cellsThisRound[i, j];
                 }
             }
+        }
+
+        private void ProceedButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessStep();
+        }
+
+        private void Cell_Click(object sender, EventArgs e)
+        {
+            Label curLabel = (Label)sender;
+            Cell curCell = (Cell)curLabel.DataContext;
+            curCell.Alive = (curCell.Alive) ? false : true;
+        }
+
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            GameFrame.Children.Remove(GameGrid);
+
+            NumberOfColumns = (int)ColSlider.Value;
+            NumberOfRows = (int)RowSlider.Value;
+            int counter = 0;
+            int onCount = 4;
+
+            cells = new Cell[NumberOfColumns, NumberOfRows];
+            cellsThisRound = new bool[NumberOfColumns, NumberOfRows];
+
+            GameGrid = new Grid();
+            GameGrid.ShowGridLines = true;
+
+            for (int i = 0; i < NumberOfColumns; i++)
+            {
+                GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
+            for (int i = 0; i < NumberOfRows; i++)
+            {
+                GameGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
+            {
+                for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
+                {
+                    Label tempLabel = new Label();
+                    Cell tempCell = new Cell();
+                    tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
+                    tempLabel.DataContext = tempCell;
+                    tempLabel.Content = string.Format("{0},{1}", colIndex, rowIndex);
+                    tempLabel.MouseLeftButtonDown += Cell_Click;
+
+                    var bind = new Binding("Alive")
+                    {
+                        Converter = new AliveToColorConverter()
+                    };
+
+                    tempLabel.SetBinding(Label.BackgroundProperty, bind);
+
+                    GameGrid.Children.Add(tempLabel);
+                    Grid.SetColumn(tempLabel, colIndex);
+                    Grid.SetRow(tempLabel, rowIndex);
+                    cells[colIndex, rowIndex] = tempCell;
+                    //Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
+                }
+            }
+            GameFrame.Children.Add(GameGrid);
         }
 
 

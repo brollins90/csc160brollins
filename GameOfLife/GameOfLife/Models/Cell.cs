@@ -16,7 +16,7 @@ namespace GameOfLife.Models
         {
             if (PropertyChanged != null)
             {
-                Console.WriteLine("MainWindow.FirePropertyChanged({0})", propertyName);
+                //Console.WriteLine("MainWindow.FirePropertyChanged({0})", propertyName);
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
