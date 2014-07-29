@@ -4,6 +4,21 @@
         Title="WindowOfLife" Height="500" Width="600">
     <DockPanel x:Name="MainDock" >
         <StackPanel x:Name="GameControls" DockPanel.Dock="Left" Width="150">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">SPS</Label>
+                <Slider x:Name="TimeSlider" Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="20" IsSnapToTickEnabled="True" Value="1"/>
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ElementName=TimeSlider, Path=Value, Mode=TwoWay}"/>
+            </Grid>
+            <Button Content="Start Timer" Click="StartTimerButton_Click"/>
+            <Button Content="Stop Timer" Click="StopTimerButton_Click"/>
             <Button Content="One Step" Click="ProceedButton_Click"/>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -16,11 +31,11 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0">Rows</Label>
-                <Slider x:Name="RowSlider" Grid.Row="0" Grid.Column="1" Minimum="10" Maximum="100" IsSnapToTickEnabled="True" Value="10"/>
+                <Slider x:Name="RowSlider" Grid.Row="0" Grid.Column="1" Minimum="1" Maximum="100" IsSnapToTickEnabled="True" Value="10"/>
                 <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding ElementName=RowSlider, Path=Value, Mode=TwoWay}"/>
 
                 <Label Grid.Row="1" Grid.Column="0">Cols</Label>
-                <Slider x:Name="ColSlider" Grid.Row="1" Grid.Column="1" Minimum="10" Maximum="100" IsSnapToTickEnabled="True" Value="10"/>
+                <Slider x:Name="ColSlider" Grid.Row="1" Grid.Column="1" Minimum="1" Maximum="100" IsSnapToTickEnabled="True" Value="10"/>
                 <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=ColSlider, Path=Value, Mode=TwoWay}"/>
             </Grid>
             <Button Content="Create New Game" Click="NewGameButton_Click"/>
