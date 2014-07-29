@@ -24,20 +24,6 @@ namespace GameOfLife
 
         public static void SetBit(this BigInteger value, int bit, out BigInteger o)
         {
-            //Console.WriteLine("org  :   " + value.ToBinaryString());
-            //BigInteger mask = BigInteger.One;
-            //Console.WriteLine("mask1:       " + mask.ToBinaryString());
-            //mask = mask << bit;
-            //Console.WriteLine("mask2:     " + mask.ToBinaryString());
-            //BigInteger notMask = ~mask;
-            //Console.WriteLine("mask~: " + notMask.ToBinaryString());
-            ////decimal mask = (decimal)1 << bit;
-            //BigInteger b2 = value | mask;
-            //Console.WriteLine("b2   :   " + b2.ToBinaryString());
-            //o = b2;
-            ////BigInteger mask = BigInteger.Parse("1") << bit;
-            ////value |= mask;
-
             BigInteger mask = BigInteger.Parse("1") << bit;
             o = value | mask;            
         }
@@ -95,8 +81,8 @@ namespace GameOfLife
         public BigInteger[] GameRowsThis;
 
         private DispatcherTimer Timer;
-
-
+        private Random _Random;
+        
         public int NumberOfRows { get; set; }
         public int NumberOfColumns { get; set; }
         private Cell[,] cells;
@@ -110,6 +96,7 @@ namespace GameOfLife
             Timer = new DispatcherTimer();
             Timer.Interval = TimeSpan.FromSeconds(1);
             Timer.Tick += Timer_Tick;
+            _Random = new Random();
         }
 
         void Timer_Tick(object sender, EventArgs e)
@@ -280,8 +267,8 @@ namespace GameOfLife
 
             NumberOfColumns = (int)ColSlider.Value;
             NumberOfRows = (int)RowSlider.Value;
-            int counter = 0;
-            int onCount = 4;
+            //int counter = 0;
+            //int onCount = 4;
 
             cells = new Cell[NumberOfRows, NumberOfColumns];
             cellsThisRound = new bool[NumberOfRows, NumberOfColumns];
@@ -305,7 +292,7 @@ namespace GameOfLife
                 {
                     Label tempLabel = new Label();
                     Cell tempCell = new Cell();
-                    tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
+                    //tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
                     tempLabel.DataContext = tempCell;
                     tempLabel.Content = string.Format("{0},{1}", rowIndex, colIndex);
                     tempLabel.MouseLeftButtonDown += Cell_Click;
@@ -336,6 +323,17 @@ namespace GameOfLife
         private void StopTimerButton_Click(object sender, RoutedEventArgs e)
         {
             Timer.Stop();
+        }
+
+        private void RandomButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
+                {
+                    cells[rowIndex,colIndex].Alive = (_Random.Next(0,2) == 0) ? true : false;
+                }
+            }
         }
 
 

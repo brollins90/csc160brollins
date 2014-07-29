@@ -39,11 +39,11 @@
                 <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding ElementName=ColSlider, Path=Value, Mode=TwoWay}"/>
             </Grid>
             <Button Content="Create New Game" Click="NewGameButton_Click"/>
-            
-            
-        </StackPanel>
-        <StackPanel x:Name="GameFrame" DockPanel.Dock="Right">
+            <Button Content="Random Pattern" Click="RandomButton_Click"/>
             
         </StackPanel>
+        <Grid x:Name="GameFrame" DockPanel.Dock="Right">
+            
+        </Grid>
     </DockPanel>
 </Window>
