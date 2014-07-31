@@ -7,6 +7,9 @@
         <bc:ByteToHexStringConverter x:Key="ByteToHexStringConverter"/>
         <bc:BytesToBrushConverter x:Key="BytesToBrushConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="VisibilityOnCheck" TargetType="{x:Type Control}">
+            <Setter Property="Visibility" Value="{Binding ElementName=ShowSliders, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -46,7 +49,7 @@
             <TextBox Grid.Row="4" Grid.Column="0" x:Name="gValue" Text="127"></TextBox>
             <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=gValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
         </Grid>
-        <Grid Grid.Row="0" Grid.Column="1" Visibility="{Binding ElementName=ShowSliders, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid Grid.Row="0" Grid.Column="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -57,10 +60,10 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Slider Grid.Row="1" Grid.Column="0" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=aValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Slider Grid.Row="2" Grid.Column="0" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=rValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Slider Grid.Row="3" Grid.Column="0" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=bValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Slider Grid.Row="4" Grid.Column="0" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=gValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Slider Grid.Row="1" Grid.Column="0" Style="{StaticResource VisibilityOnCheck}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=aValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Slider Grid.Row="2" Grid.Column="0" Style="{StaticResource VisibilityOnCheck}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=rValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Slider Grid.Row="3" Grid.Column="0" Style="{StaticResource VisibilityOnCheck}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=bValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Slider Grid.Row="4" Grid.Column="0" Style="{StaticResource VisibilityOnCheck}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=gValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Rectangle Grid.Row="0" Grid.Column="2" Width="50" Height="50" Visibility="{Binding ElementName=ShowSliders, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Rectangle.Fill>
