@@ -21,42 +21,47 @@
     </Window.Resources>
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
+            <Label Style="{StaticResource OtherStyle}" Width="20" Content=""></Label>
             <Label Style="{StaticResource OtherStyle}" Content="Dec"></Label>
             <Label Style="{StaticResource OtherStyle}" Content="Hex"></Label>
             <Label Style="{StaticResource SliderStyle}" Content="Slider"></Label>
         </StackPanel>
         
         <StackPanel Orientation="Horizontal">
+            <Label Style="{StaticResource OtherStyle}" Width="20" Content="A:"></Label>
             <TextBox Style="{StaticResource OtherStyle}" x:Name="aValue" Text="255"></TextBox>
             <TextBox Style="{StaticResource OtherStyle}" Text="{Binding ElementName=aValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
             <Slider Style="{StaticResource SliderStyle}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=aValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
+            <Label Style="{StaticResource OtherStyle}" Width="20" Content="R:"></Label>
             <TextBox Style="{StaticResource OtherStyle}" x:Name="rValue" Text="127"></TextBox>
             <TextBox Style="{StaticResource OtherStyle}" Text="{Binding ElementName=rValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
             <Slider Style="{StaticResource SliderStyle}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=rValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBox Style="{StaticResource OtherStyle}" x:Name="bValue" Text="127"></TextBox>
-            <TextBox Style="{StaticResource OtherStyle}" Text="{Binding ElementName=bValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
-            <Slider Style="{StaticResource SliderStyle}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=bValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
+            <Label Style="{StaticResource OtherStyle}" Width="20" Content="G:"></Label>
             <TextBox Style="{StaticResource OtherStyle}" x:Name="gValue" Text="127"></TextBox>
             <TextBox Style="{StaticResource OtherStyle}" Text="{Binding ElementName=gValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
             <Slider Style="{StaticResource SliderStyle}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=gValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <CheckBox x:Name="ShowSliders" IsChecked="True"></CheckBox>
-            <Label Content="Sliders"></Label>
+            <Label Style="{StaticResource OtherStyle}" Width="20" Content="B:"></Label>
+            <TextBox Style="{StaticResource OtherStyle}" x:Name="bValue" Text="127"></TextBox>
+            <TextBox Style="{StaticResource OtherStyle}" Text="{Binding ElementName=bValue,Path=Text,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ByteToHexStringConverter}}"></TextBox>
+            <Slider Style="{StaticResource SliderStyle}" Minimum="0" Maximum="255" IsSnapToTickEnabled="True" Value="{Binding ElementName=bValue, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-        <Rectangle Width="50" Height="50" Visibility="{Binding ElementName=ShowSliders, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel Orientation="Horizontal">
+            <CheckBox x:Name="ShowSliders" IsChecked="True"></CheckBox>
+            <Label Content="Display Preview With Sliders?"></Label>
+        </StackPanel>
+        <Rectangle Width="80" Height="80" Visibility="{Binding ElementName=ShowSliders, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Rectangle.Fill>
                 <MultiBinding Converter="{StaticResource BytesToBrushConverter}">
                     <Binding ElementName="aValue" Path="Text"/>
                     <Binding ElementName="rValue" Path="Text"/>
-                    <Binding ElementName="bValue" Path="Text"/>
                     <Binding ElementName="gValue" Path="Text"/>
+                    <Binding ElementName="bValue" Path="Text"/>
                 </MultiBinding>
             </Rectangle.Fill>
         </Rectangle>

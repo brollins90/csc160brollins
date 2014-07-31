@@ -40,7 +40,7 @@ namespace ValueConverters
                 retVal = (retVal > 255) ? 255 : retVal;
             }
             catch( Exception) {
-                
+                retVal = 0;
             }
             return retVal.ToString("X");
         }
@@ -56,7 +56,7 @@ namespace ValueConverters
             }
             catch (Exception)
             {
-                return 0;
+                return 0.ToString();
             }
         }
     }
@@ -70,7 +70,12 @@ namespace ValueConverters
         {
             try
             {
-                return new SolidColorBrush(Color.FromArgb((byte)int.Parse((string)values[0]), (byte)int.Parse((string)values[1]), (byte)int.Parse((string)values[2]), (byte)int.Parse((string)values[3])));
+                byte aByte = (byte)int.Parse((string)values[0]);
+                byte rByte = (byte)int.Parse((string)values[1]);
+                byte gByte = (byte)int.Parse((string)values[2]);
+                byte bByte = (byte)int.Parse((string)values[3]);
+
+                return new SolidColorBrush(Color.FromArgb(aByte, rByte, gByte, bByte));
             }
             catch (Exception)
             {
