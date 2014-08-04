@@ -15,61 +15,13 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Numerics;
 using System.Windows.Threading;
+using System.IO;
+using GameOfLife.Extensions;
+using Microsoft.Win32;
 //using System.Windows.Automation.Provider;
 
 namespace GameOfLife
 {
-
-    public static class ExtensionMethods {
-
-        public static void SetBit(this BigInteger value, int bit, out BigInteger o)
-        {
-            BigInteger mask = BigInteger.Parse("1") << bit;
-            o = value | mask;            
-        }
-
-        public static void UnsetBit(this BigInteger value, int bit, out BigInteger o)
-        {
-            BigInteger mask = BigInteger.Parse("1") << bit;
-            o = value & ~mask;
-        }
-
-        public static bool IsSet(this BigInteger value, int bit)
-        {
-            BigInteger i = value & (BigInteger.One << bit);
-            //Console.WriteLine(i.ToBinaryString());
-            return i != 0; ;
-        }
-
-        public static string ToBinaryString(this BigInteger bigint)
-        {
-            var bytes = bigint.ToByteArray();
-            var idx = bytes.Length - 1;
-
-            // Create a StringBuilder having appropriate capacity.
-            var base2 = new StringBuilder(bytes.Length * 8);
-
-            // Convert first byte to binary.
-            var binary = Convert.ToString(bytes[idx], 2);
-
-            // Ensure leading zero exists if value is positive.
-            if (binary[0] != '0' && bigint.Sign == 1)
-            {
-                base2.Append('0');
-            }
-
-            // Append binary string to StringBuilder.
-            base2.Append(binary);
-
-            // Convert remaining bytes adding leading zeros.
-            for (idx--; idx >= 0; idx--)
-            {
-                base2.Append(Convert.ToString(bytes[idx], 2).PadLeft(8, '0'));
-            }
-
-            return base2.ToString();
-        }
-    }
 
     /// <summary>
     /// Interaction logic for WindowOfLife.xaml
@@ -113,8 +65,9 @@ namespace GameOfLife
             return null;
         }
 
-        public void ProcessStep()
+        public void PrepareGameRows()
         {
+
             for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
             {
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
@@ -130,6 +83,11 @@ namespace GameOfLife
                 }
                 GameRowsThis[rowIndex] = BigInteger.Parse(GameRows[rowIndex].ToString());
             }
+        }
+
+        public void ProcessStep()
+        {
+            PrepareGameRows();
 
             //GameRowsThis = GameRows;
 
@@ -186,69 +144,6 @@ namespace GameOfLife
             }
         }
 
-        public void ProcessStepOld()
-        {
-            for (int i = 0; i < NumberOfColumns; i++)
-            {
-                for (int j = 0; j < NumberOfRows; j++)
-                {
-                    cellsThisRound[i, j] = cells[i, j].Alive;
-                }
-            }
-
-            for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
-            {
-                for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
-                {
-                    Cell[] neighbors = new Cell[8];
-                    neighbors[0] = GetCellAt(colIndex - 1, rowIndex - 1);
-                    neighbors[1] = GetCellAt(colIndex - 0, rowIndex - 1);
-                    neighbors[2] = GetCellAt(colIndex + 1, rowIndex - 1);
-                    neighbors[3] = GetCellAt(colIndex + 1, rowIndex - 0);
-                    neighbors[4] = GetCellAt(colIndex + 1, rowIndex + 1);
-                    neighbors[5] = GetCellAt(colIndex - 0, rowIndex + 1);
-                    neighbors[6] = GetCellAt(colIndex - 1, rowIndex + 1);
-                    neighbors[7] = GetCellAt(colIndex - 1, rowIndex - 0);
-
-                    int nCount = 0;
-                    for (int nIndex = 0; nIndex < 8; nIndex++)
-                    {
-                        Cell cur = neighbors[nIndex];
-                        if (cur != null && cur.Alive)
-                        {
-                            nCount++;
-                        }
-                    }
-                    //Console.WriteLine("{0},{1}: {2}", colIndex, rowIndex, nCount);
-
-                    switch (nCount)
-                    {
-                        default:
-                            cellsThisRound[colIndex, rowIndex] = false;
-                            break;
-                        case 2:
-                            if (cells[colIndex, rowIndex].Alive)
-                            {
-                                cellsThisRound[colIndex, rowIndex] = true;
-                            }
-                            break;
-                        case 3:
-                            cellsThisRound[colIndex, rowIndex] = true;
-                            break;
-                    }
-
-                }
-            }
-
-            for (int i = 0; i < NumberOfColumns; i++)
-            {
-                for (int j = 0; j < NumberOfRows; j++)
-                {
-                    cells[i, j].Alive = cellsThisRound[i, j];
-                }
-            }
-        }
-
         private void ProceedButton_Click(object sender, RoutedEventArgs e)
         {
             ProcessStep();
@@ -256,12 +151,16 @@ namespace GameOfLife
 
         private void Cell_Click(object sender, EventArgs e)
         {
-            Label curLabel = (Label)sender;
+            Rectangle curLabel = (Rectangle)sender;
             Cell curCell = (Cell)curLabel.DataContext;
             curCell.Alive = (curCell.Alive) ? false : true;
         }
 
         private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewGame();
+        }
+        private void NewGame()
         {
             GameFrame.Children.Remove(GameGrid);
 
@@ -290,11 +189,11 @@ namespace GameOfLife
             {
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
-                    Label tempLabel = new Label();
+                    Rectangle tempLabel = new Rectangle();
                     Cell tempCell = new Cell();
                     //tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
                     tempLabel.DataContext = tempCell;
-                    tempLabel.Content = string.Format("{0},{1}", rowIndex, colIndex);
+                    //tempLabel.Content = string.Format("{0},{1}", rowIndex, colIndex);
                     tempLabel.MouseLeftButtonDown += Cell_Click;
 
                     var bind = new Binding("Alive")
@@ -302,7 +201,7 @@ namespace GameOfLife
                         Converter = new AliveToColorConverter()
                     };
 
-                    tempLabel.SetBinding(Label.BackgroundProperty, bind);
+                    tempLabel.SetBinding(Rectangle.FillProperty, bind);
 
                     GameGrid.Children.Add(tempLabel);
                     Grid.SetRow(tempLabel, rowIndex);
@@ -331,9 +230,76 @@ namespace GameOfLife
             {
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
-                    cells[rowIndex,colIndex].Alive = (_Random.Next(0,2) == 0) ? true : false;
+                    cells[rowIndex,colIndex].Alive = (_Random.Next(0,4) == 0) ? true : false;
                 }
             }
+        }
+
+        public void SaveGame(string filename)
+        {
+            PrepareGameRows();
+            TextWriter tw = new StreamWriter(filename);
+            tw.WriteLine(string.Format("{0},{1}",NumberOfRows.ToString(), NumberOfColumns.ToString()));
+            for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
+            {
+                tw.WriteLine(GameRows[rowIndex]);
+            }
+            tw.Close();
+        }
+        
+        public void LoadGame(string filename)
+        {
+            
+            int rowIndex = 0;
+            TextReader tr = new StreamReader(filename);
+
+            string line = tr.ReadLine();
+            string[] randc = line.Split(',');
+
+            RowSlider.Value = int.Parse(randc[0]);
+            ColSlider.Value = int.Parse(randc[1]);
+
+            NewGame();
+
+
+            while ((line = tr.ReadLine()) != null) {
+
+                GameRows[rowIndex++] = BigInteger.Parse(line);
+
+                for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
+                {
+                    cells[rowIndex - 1, colIndex].Alive = GameRows[rowIndex - 1].IsSet(colIndex);
+                }    
+            }
+        
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog fileSelector = new SaveFileDialog();
+            fileSelector.Filter = "Game of Life files|*.save";
+            fileSelector.FilterIndex = 0;
+
+            bool? clickedOK = fileSelector.ShowDialog();
+            if (clickedOK == true)
+            {
+                SaveGame(fileSelector.FileName);
+            }
+            //SaveGame(@"c:\_\gameoflife1.save");
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileSelector = new OpenFileDialog();
+            fileSelector.Filter = "Game of Life files|*.save";
+            fileSelector.FilterIndex = 0;
+
+            bool? clickedOK = fileSelector.ShowDialog();
+            if (clickedOK == true)
+            {
+                LoadGame(fileSelector.FileName);
+            }
+            //LoadGame(@"c:\_\gameoflife1.save");
         }
 
 

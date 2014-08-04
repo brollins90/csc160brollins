@@ -40,6 +40,8 @@
             </Grid>
             <Button Content="Create New Game" Click="NewGameButton_Click"/>
             <Button Content="Random Pattern" Click="RandomButton_Click"/>
+            <Button Content="save" Click="SaveButton_Click"/>
+            <Button Content="load" Click="LoadButton_Click"/>
             
         </StackPanel>
         <Grid x:Name="GameFrame" DockPanel.Dock="Right">

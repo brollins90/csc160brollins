@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\BigIntExtensionMethods.cs" />
     <Compile Include="WindowOfLife.xaml.cs">
       <DependentUpon>WindowOfLife.xaml</DependentUpon>
     </Compile>
