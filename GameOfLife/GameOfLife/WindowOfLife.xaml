@@ -44,8 +44,8 @@
             <Button Content="load" Click="LoadButton_Click"/>
 
         </StackPanel>
-        <StackPanel x:Name="GameFrame" DockPanel.Dock="Right">
+        <Grid x:Name="GameFrame" DockPanel.Dock="Right">
 
-        </StackPanel>
+        </Grid>
     </DockPanel>
 </Window>

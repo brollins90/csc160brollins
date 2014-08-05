@@ -210,8 +210,8 @@ namespace GameOfLife
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
                     Rectangle tempLabel = new Rectangle();
-                    tempLabel.Width = 10;
-                    tempLabel.Height = 10;
+                    //tempLabel.Width = 10;
+                    //tempLabel.Height = 10;
                     Cell tempCell = new Cell();
                     //tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
                     tempLabel.DataContext = tempCell;
