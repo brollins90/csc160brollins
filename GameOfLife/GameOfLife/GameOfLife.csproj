@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensions\BigIntExtensionMethods.cs" />
+    <Compile Include="Extensions\DoubleExtensionMethods.cs" />
     <Compile Include="WindowOfLife.xaml.cs">
       <DependentUpon>WindowOfLife.xaml</DependentUpon>
     </Compile>

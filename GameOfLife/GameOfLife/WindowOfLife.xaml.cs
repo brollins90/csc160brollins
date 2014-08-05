@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using System.IO;
 using GameOfLife.Extensions;
 using Microsoft.Win32;
+using System.Diagnostics;
 //using System.Windows.Automation.Provider;
 
 namespace GameOfLife
@@ -67,9 +68,13 @@ namespace GameOfLife
 
         public void PrepareGameRows()
         {
-
+            //Stopwatch sw = new Stopwatch();
+            //sw.Start();
             for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
             {
+                //sw.Stop();
+                //sw.Reset();
+                //sw.Start();
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
                     if (cells[rowIndex, colIndex].Alive)
@@ -81,13 +86,26 @@ namespace GameOfLife
                         GameRows[rowIndex].UnsetBit(colIndex, out GameRows[rowIndex]);
                     }
                 }
+                //sw.Stop();
+                //Console.WriteLine("one row: {0}", sw.Elapsed);
+                //sw.Reset();
+                //sw.Start();
                 GameRowsThis[rowIndex] = BigInteger.Parse(GameRows[rowIndex].ToString());
+                //sw.Stop();
+                //Console.WriteLine("parse row: {0}", sw.Elapsed);
             }
         }
 
         public void ProcessStep()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
             PrepareGameRows();
+            sw.Stop();
+            Console.WriteLine("{0} PrepareGameRows()", sw.Elapsed);
+            sw.Reset();
+            sw.Start();
 
             //GameRowsThis = GameRows;
 
@@ -142,6 +160,8 @@ namespace GameOfLife
                     }
                 }
             }
+            sw.Stop();
+            Console.WriteLine("{0} ProcessStep()", sw.Elapsed);
         }
 
         private void ProceedButton_Click(object sender, RoutedEventArgs e)

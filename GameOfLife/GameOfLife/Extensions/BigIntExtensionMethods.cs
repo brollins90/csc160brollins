@@ -8,21 +8,26 @@ namespace GameOfLife.Extensions
     {
         public static void SetBit(this BigInteger value, int bit, out BigInteger o)
         {
-            BigInteger mask = BigInteger.Parse("1") << bit;
-            o = value | mask;
+            //BigInteger mask = BigInteger.One << bit;
+            o = value | (BigInteger.One << bit);
         }
 
         public static void UnsetBit(this BigInteger value, int bit, out BigInteger o)
         {
-            BigInteger mask = BigInteger.Parse("1") << bit;
-            o = value & ~mask;
+            //BigInteger mask = BigInteger.One << bit;
+            o = value & ~(BigInteger.One << bit);
         }
 
         public static bool IsSet(this BigInteger value, int bit)
         {
-            BigInteger i = value & (BigInteger.One << bit);
+            //BigInteger i = value & (BigInteger.One << bit);
             //Console.WriteLine(i.ToBinaryString());
-            return i != 0; ;
+            return (value & (BigInteger.One << bit)) != 0;
+        }
+
+        public static int BitValue(this BigInteger value, int bit)
+        {
+            return ((value & (BigInteger.One << bit)) != 0) ? 1 : 0;
         }
 
         public static string ToBinaryString(this BigInteger bigint)
