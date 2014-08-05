@@ -194,17 +194,17 @@ namespace GameOfLife
             GameRows = new BigInteger[NumberOfRows];
             GameRowsThis = new BigInteger[NumberOfRows];
 
-            //GameGrid = new Grid();
-            //GameGrid.ShowGridLines = true;
+            GameGrid = new Grid();
+            GameGrid.ShowGridLines = true;
 
-            //for (int i = 0; i < NumberOfRows; i++)
-            //{
-            //    GameGrid.RowDefinitions.Add(new RowDefinition());
-            //}
-            //for (int i = 0; i < NumberOfColumns; i++)
-            //{
-            //    GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            //}
+            for (int i = 0; i < NumberOfRows; i++)
+            {
+                GameGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            for (int i = 0; i < NumberOfColumns; i++)
+            {
+                GameGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            }
             for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++) 
             {
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
@@ -225,15 +225,17 @@ namespace GameOfLife
 
                     tempLabel.SetBinding(Rectangle.FillProperty, bind);
 
-
-                    GameFrame.Children.Add(tempLabel);
-                    Canvas.SetTop(tempLabel, rowIndex * 10);
-                    Canvas.SetLeft(tempLabel, colIndex * 10);
+                    GameGrid.Children.Add(tempLabel);
+                    //GameFrame.Children.Add(tempLabel);
+                    Grid.SetRow(tempLabel, rowIndex);
+                    Grid.SetColumn(tempLabel, colIndex);
+                    //Canvas.SetTop(tempLabel, rowIndex * 10);
+                    //Canvas.SetLeft(tempLabel, colIndex * 10);
                     cells[rowIndex, colIndex] = tempCell;
                     //Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
                 }
             }
-            //GameFrame.Children.Add(GameGrid);
+            GameFrame.Children.Add(GameGrid);
         }
 
         private void StartTimerButton_Click(object sender, RoutedEventArgs e)
@@ -323,6 +325,12 @@ namespace GameOfLife
                 LoadGame(fileSelector.FileName);
             }
             //LoadGame(@"c:\_\gameoflife1.save");
+        }
+
+        private void TimeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Timer != null)
+                Timer.Interval = TimeSpan.FromMilliseconds((1000 / TimeSlider.Value));
         }
 
 
