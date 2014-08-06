@@ -25,11 +25,13 @@ namespace GameOfLife
 {
 
     /// <summary>
-    /// Interaction logic for WindowOfLife.xaml
+    /// The Game of Life with some slow data binding...
+    /// 
+    /// Blake Rollins
+    /// 
     /// </summary>
     public partial class WindowOfLife : Window
     {
-
         public BigInteger[] GameRows;
         public BigInteger[] GameRowsThis;
 
@@ -39,9 +41,7 @@ namespace GameOfLife
         public int NumberOfRows { get; set; }
         public int NumberOfColumns { get; set; }
         private Cell[,] cells;
-        private bool[,] cellsThisRound;
         private Grid GameGrid;
-
 
         public WindowOfLife()
         {
@@ -51,12 +51,23 @@ namespace GameOfLife
             Timer.Tick += Timer_Tick;
             _Random = new Random();
         }
-
+        
+        /// <summary>
+        /// What happens when one tick of the timer happens
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void Timer_Tick(object sender, EventArgs e)
         {
             ProcessStep();
         }
         
+        /// <summary>
+        /// Returns a reference of the Cell at the specified row and column
+        /// </summary>
+        /// <param name="col"></param>
+        /// <param name="row"></param>
+        /// <returns></returns>
         public Cell GetCellAt(int col, int row)
         {
             if (col > -1 && col < NumberOfColumns && row > -1 && row < NumberOfRows)
@@ -66,15 +77,13 @@ namespace GameOfLife
             return null;
         }
 
+        /// <summary>
+        /// Reset the nextgamerow array for the program
+        /// </summary>
         public void PrepareGameRows()
         {
-            //Stopwatch sw = new Stopwatch();
-            //sw.Start();
             for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
             {
-                //sw.Stop();
-                //sw.Reset();
-                //sw.Start();
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
                     if (cells[rowIndex, colIndex].Alive)
@@ -86,32 +95,19 @@ namespace GameOfLife
                         GameRows[rowIndex].UnsetBit(colIndex, out GameRows[rowIndex]);
                     }
                 }
-                //sw.Stop();
-                //Console.WriteLine("one row: {0}", sw.Elapsed);
-                //sw.Reset();
-                //sw.Start();
                 GameRowsThis[rowIndex] = BigInteger.Parse(GameRows[rowIndex].ToString());
-                //sw.Stop();
-                //Console.WriteLine("parse row: {0}", sw.Elapsed);
             }
         }
 
+        /// <summary>
+        /// Proceses one step of the game
+        /// </summary>
         public void ProcessStep()
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-
             PrepareGameRows();
-            sw.Stop();
-            Console.WriteLine("{0} PrepareGameRows()", sw.Elapsed);
-            sw.Reset();
-            sw.Start();
-
-            //GameRowsThis = GameRows;
 
             for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
             {
-                //Console.WriteLine(GameRows[rowIndex].ToBinaryString());
                 int rowAbove = rowIndex - 1;
                 int rowBelow = rowIndex + 1;
 
@@ -138,7 +134,6 @@ namespace GameOfLife
                     if (GameRows[rowIndex].IsSet(left))
                         nCount++;
 
-                    //Console.WriteLine("{0},{1}: {2}", rowIndex, colIndex, nCount);
                     switch (nCount)
                     {
                         default:
@@ -156,41 +151,22 @@ namespace GameOfLife
                             GameRowsThis[rowIndex].SetBit(colIndex, out GameRowsThis[rowIndex]);
                             cells[rowIndex, colIndex].Alive = true;
                             break;
-
                     }
                 }
             }
-            sw.Stop();
-            Console.WriteLine("{0} ProcessStep()", sw.Elapsed);
         }
-
-        private void ProceedButton_Click(object sender, RoutedEventArgs e)
-        {
-            ProcessStep();
-        }
-
-        private void Cell_Click(object sender, EventArgs e)
-        {
-            Rectangle curLabel = (Rectangle)sender;
-            Cell curCell = (Cell)curLabel.DataContext;
-            curCell.Alive = (curCell.Alive) ? false : true;
-        }
-
-        private void NewGameButton_Click(object sender, RoutedEventArgs e)
-        {
-            NewGame();
-        }
+        
+        /// <summary>
+        /// Create a new game (using the global size variables)
+        /// </summary>
         private void NewGame()
         {
             GameFrame.Children.Remove(GameGrid);
 
             NumberOfColumns = (int)ColSlider.Value;
             NumberOfRows = (int)RowSlider.Value;
-            //int counter = 0;
-            //int onCount = 4;
 
             cells = new Cell[NumberOfRows, NumberOfColumns];
-            //cellsThisRound = new bool[NumberOfRows, NumberOfColumns];
             GameRows = new BigInteger[NumberOfRows];
             GameRowsThis = new BigInteger[NumberOfRows];
 
@@ -210,12 +186,8 @@ namespace GameOfLife
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
                     Rectangle tempLabel = new Rectangle();
-                    //tempLabel.Width = 10;
-                    //tempLabel.Height = 10;
                     Cell tempCell = new Cell();
-                    //tempCell.Alive = (counter++ % onCount) == 0 ? true : false;
                     tempLabel.DataContext = tempCell;
-                    //tempLabel.Content = string.Format("{0},{1}", rowIndex, colIndex);
                     tempLabel.MouseLeftButtonDown += Cell_Click;
 
                     var bind = new Binding("Alive")
@@ -226,40 +198,18 @@ namespace GameOfLife
                     tempLabel.SetBinding(Rectangle.FillProperty, bind);
 
                     GameGrid.Children.Add(tempLabel);
-                    //GameFrame.Children.Add(tempLabel);
                     Grid.SetRow(tempLabel, rowIndex);
                     Grid.SetColumn(tempLabel, colIndex);
-                    //Canvas.SetTop(tempLabel, rowIndex * 10);
-                    //Canvas.SetLeft(tempLabel, colIndex * 10);
                     cells[rowIndex, colIndex] = tempCell;
-                    //Console.WriteLine("{0}: - {1}", counter, tempCell.Alive);
                 }
             }
             GameFrame.Children.Add(GameGrid);
         }
 
-        private void StartTimerButton_Click(object sender, RoutedEventArgs e)
-        {
-            Timer.Interval = TimeSpan.FromMilliseconds((1000 / TimeSlider.Value));
-            Timer.Start();
-        }
-
-        private void StopTimerButton_Click(object sender, RoutedEventArgs e)
-        {
-            Timer.Stop();
-        }
-
-        private void RandomButton_Click(object sender, RoutedEventArgs e)
-        {
-            for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
-            {
-                for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
-                {
-                    cells[rowIndex,colIndex].Alive = (_Random.Next(0,4) == 0) ? true : false;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Save the game state to the specified file
+        /// </summary>
+        /// <param name="filename"></param>
         public void SaveGame(string filename)
         {
             PrepareGameRows();
@@ -272,33 +222,107 @@ namespace GameOfLife
             tw.Close();
         }
         
+        /// <summary>
+        /// Load the game from the specified file
+        /// </summary>
+        /// <param name="filename"></param>
         public void LoadGame(string filename)
-        {
-            
+        {            
             int rowIndex = 0;
             TextReader tr = new StreamReader(filename);
 
             string line = tr.ReadLine();
             string[] randc = line.Split(',');
 
+            // The first line of the file has the width and height
             RowSlider.Value = int.Parse(randc[0]);
             ColSlider.Value = int.Parse(randc[1]);
-
             NewGame();
-
-
+            
             while ((line = tr.ReadLine()) != null) {
 
                 GameRows[rowIndex++] = BigInteger.Parse(line);
-
                 for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
                 {
                     cells[rowIndex - 1, colIndex].Alive = GameRows[rowIndex - 1].IsSet(colIndex);
                 }    
             }
-        
         }
 
+        /// <summary>
+        /// The event for a Cell Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cell_Click(object sender, EventArgs e)
+        {
+            Rectangle curLabel = (Rectangle)sender;
+            Cell curCell = (Cell)curLabel.DataContext;
+            curCell.Alive = (curCell.Alive) ? false : true;
+        }
+
+        /// <summary>
+        /// The event for the New Game button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NewGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            NewGame();
+        }
+
+        /// <summary>
+        /// The event for the Next button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProceedButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProcessStep();
+        }
+
+        /// <summary>
+        /// The event for the Start button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StartTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Timer.Interval = TimeSpan.FromMilliseconds((1000 / TimeSlider.Value));
+            Timer.Start();
+        }
+
+        /// <summary>
+        /// The event for the Stop button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StopTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            Timer.Stop();
+        }
+
+        /// <summary>
+        /// The event for the Random button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RandomButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int rowIndex = 0; rowIndex < NumberOfRows; rowIndex++)
+            {
+                for (int colIndex = 0; colIndex < NumberOfColumns; colIndex++)
+                {
+                    cells[rowIndex, colIndex].Alive = (_Random.Next(0, 4) == 0) ? true : false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The event for the Save button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog fileSelector = new SaveFileDialog();
@@ -313,6 +337,11 @@ namespace GameOfLife
             //SaveGame(@"c:\_\gameoflife1.save");
         }
 
+        /// <summary>
+        /// The event for the Load button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog fileSelector = new OpenFileDialog();
@@ -327,15 +356,21 @@ namespace GameOfLife
             //LoadGame(@"c:\_\gameoflife1.save");
         }
 
+        /// <summary>
+        /// The value change event for the Time slider
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Timer != null)
                 Timer.Interval = TimeSpan.FromMilliseconds((1000 / TimeSlider.Value));
         }
-
-
     }
 
+    /// <summary>
+    /// Converts a Cell to a SolidColorBrush for display
+    /// </summary>
     public class AliveToColorConverter : IValueConverter
     {
         public static SolidColorBrush AliveBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -343,7 +378,6 @@ namespace GameOfLife
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            //Cell temp = (Cell)value;
             return (bool)value ? AliveBrush : DeadBrush;
         }
 
