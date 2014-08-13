@@ -20,7 +20,9 @@ namespace GenericLinkedList
         }
         public override string ToString()
         {
-            return Value.ToString();
+            string lastString = (Last != null) ? Last.Value.ToString() : "null";
+            string nextString = (Next != null) ? Next.Value.ToString() : "null";
+            return string.Format("{0}-{1}-{2}", lastString, Value.ToString(), nextString);
         }
     }
 }

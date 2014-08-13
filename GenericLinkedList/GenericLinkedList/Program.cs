@@ -41,6 +41,18 @@ namespace GenericLinkedList
             myStructure.Clear();
 
             Console.WriteLine(myStructure.ToString());
+            myStructure.Add("3");
+            myStructure.Add("2");
+            myStructure.Add("1");
+            myStructure.Add("7");
+            myStructure.Add("9");
+            myStructure.Add("8");
+            Console.WriteLine(myStructure.ToString());
+            myStructure.Sort();
+            Console.WriteLine(myStructure.ToString());
+
+
+            Console.WriteLine("ALL DONE!");
             string wait = Console.ReadLine();
         }
     }

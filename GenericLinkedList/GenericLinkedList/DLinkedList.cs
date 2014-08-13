@@ -42,6 +42,7 @@ namespace GenericLinkedList
         {
             Head = null;
             Tail = null;
+            Size = 0;
         }
 
         public void Insert(T itemValue, int index)
@@ -77,12 +78,17 @@ namespace GenericLinkedList
 
         public T Get(int index)
         {
+            return GetNode(index).Value;
+        }
+
+        public Node<T> GetNode(int index)
+        {
             Node<T> previousAt = Head;
             for (int i = 0; i < index; i++)
             {
                 previousAt = previousAt.Next;
             }
-            return previousAt.Value;
+            return previousAt;
         }
 
         public T Remove()
@@ -131,9 +137,57 @@ namespace GenericLinkedList
             }
             return foundIndex;
         }
+
         public void Sort(bool reverse = false)
         {
+            bool madeAChange = true;
+            Node<T> start = Head;
+            if (start != null && start.Next != null)
+            {
+                while (madeAChange)
+                {
+                    madeAChange = false;
+                    Node<T> node1 = Tail;
+                    Node<T> node2 = Tail.Last;
+                    while (node2 != null)
+                    {
+                        if (node1.Value.CompareTo(node2.Value) == -1)
+                        {
+                            madeAChange = true;
+                            SwapNodes(node2, node1);
+                        }
+                        
+                        node1 = node2;
+                        node2 = node1.Last;
+                    }
+                }
+            }
+        }
 
+        private void SwapNodes(Node<T> n1, Node<T> n2)
+        {
+            Node<T> n0 = n1.Last;
+            Node<T> n3 = n2.Next;
+            if (n0 == null)
+            {
+                Head = n2;
+            }
+            else
+            {
+                n0.Next = n2;
+            }
+            n1.Last = n2;
+            n1.Next = n3;
+            n2.Last = n0;
+            n2.Next = n1;
+            if (n3 == null)
+            {
+                Tail = n1;
+            }
+            else
+            {
+                n3.Last = n1;
+            }
         }
 
         public override string ToString()
@@ -143,6 +197,7 @@ namespace GenericLinkedList
             Node<T> currentNode = Head;
             while (currentNode != null)
             {
+                //Console.Write(index++ + ": " + currentNode.ToString() + "\n");
                 retString += index++ + ": " + currentNode.ToString() + "\n";
                 currentNode = currentNode.Next;
             }
