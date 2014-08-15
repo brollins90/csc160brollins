@@ -9,10 +9,10 @@ namespace GenericLinkedList
     public class DLinkedList<T> where T : IComparable<T>
     {
         private Node<T> _Head;
-        public Node<T> Head { get { return _Head; } set { _Head = value; } }
+        private Node<T> Head { get { return _Head; } set { _Head = value; } }
         
         private Node<T> _Tail;
-        public Node<T> Tail { get { return _Tail; } set { _Tail = value; } }
+        private Node<T> Tail { get { return _Tail; } set { _Tail = value; } }
 
         private int _Size;
         public int Size { get { return _Size; } set { _Size = value; } }
@@ -81,7 +81,7 @@ namespace GenericLinkedList
             return GetNode(index).Value;
         }
 
-        public Node<T> GetNode(int index)
+        private Node<T> GetNode(int index)
         {
             Node<T> previousAt = Head;
             for (int i = 0; i < index; i++)
@@ -140,7 +140,13 @@ namespace GenericLinkedList
 
         public void Sort(bool reverse = false)
         {
+            BubbleSort(reverse);
+        }
+
+        public void BubbleSort(bool reverse = false)
+        {
             bool madeAChange = true;
+            int needsToChange = reverse ? 1 : -1;
             Node<T> start = Head;
             if (start != null && start.Next != null)
             {
@@ -151,7 +157,7 @@ namespace GenericLinkedList
                     Node<T> node2 = Tail.Last;
                     while (node2 != null)
                     {
-                        if (node1.Value.CompareTo(node2.Value) == -1)
+                        if (node1.Value.CompareTo(node2.Value) == needsToChange)
                         {
                             madeAChange = true;
                             SwapNodes(node2, node1);
@@ -202,6 +208,29 @@ namespace GenericLinkedList
                 currentNode = currentNode.Next;
             }
             return retString;
+        }
+    }
+
+    class Node<T> where T : IComparable<T>
+    {
+        private Node<T> _Next;
+        public Node<T> Next { get { return _Next; } set { _Next = value; } }
+
+        private Node<T> _Last;
+        public Node<T> Last { get { return _Last; } set { _Last = value; } }
+        
+        private T _Value;
+        public T Value { get { return _Value; } set { _Value = value; } }
+
+        public Node(T value)
+        {
+            Value = value;
+        }
+        public override string ToString()
+        {
+            string lastString = (Last != null) ? Last.Value.ToString() : "null";
+            string nextString = (Next != null) ? Next.Value.ToString() : "null";
+            return string.Format("{0}-{1}-{2}", lastString, Value.ToString(), nextString);
         }
     }
 }

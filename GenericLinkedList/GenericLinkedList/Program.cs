@@ -46,9 +46,12 @@ namespace GenericLinkedList
             myStructure.Add("1");
             myStructure.Add("7");
             myStructure.Add("9");
+            myStructure.Add("9");
             myStructure.Add("8");
             Console.WriteLine(myStructure.ToString());
             myStructure.Sort();
+            Console.WriteLine(myStructure.ToString());
+            myStructure.Sort(true);
             Console.WriteLine(myStructure.ToString());
 
 
