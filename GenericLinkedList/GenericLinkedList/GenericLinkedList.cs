@@ -236,6 +236,14 @@ namespace CSC160_GenericLinkedList
             BubbleSort(sortDescending);
         }
 
+        /// <summary>
+        /// Performs a BubbleSort on the collection.  A Bubblesort is:
+        /// Steps through a list swaping adjacent elements that are not in the correct order allowing elements to "bubble up" to the top of the list
+        /// Worst Case: O(n^2)
+        /// Best Case: O(n)
+        /// Average Case: O(n^2)
+        /// </summary>
+        /// <param name="sortDescending">Indicates whether the sort is ascending or descending. The default is ascending.</param>
         protected void BubbleSort(bool sortDescending = false)
         {
             bool madeAChange = true;
@@ -263,6 +271,11 @@ namespace CSC160_GenericLinkedList
             }
         }
 
+        /// <summary>
+        /// Performs the node swap for the BubbleSort
+        /// </summary>
+        /// <param name="n1">The first node</param>
+        /// <param name="n2">The second node</param>
         protected void SwapNodes(Node<T> n1, Node<T> n2)
         {
             Node<T> n0 = n1.Last;
