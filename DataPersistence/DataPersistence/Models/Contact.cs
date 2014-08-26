@@ -44,8 +44,7 @@ namespace DataPersistence.Models
         {
             get
             {
-                return Enum.GetValues(typeof(ContactGroup))
-                    .Cast<ContactGroup>();
+                return Enum.GetValues(typeof(ContactGroup)).Cast<ContactGroup>();
             }
         }
 
