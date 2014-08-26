@@ -23,123 +23,89 @@ namespace DataPersistence
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ContactList _ContactList;
         private String SaveFileName;
 
-        public ContactList ContactList
+        private ObservableCollection<Contact> _ContactCollection;
+
+        public ObservableCollection<Contact> ContactCollection
         {
-            get { return _ContactList; }
-            set { _ContactList = value; }
+            get { return _ContactCollection; }
+            set { _ContactCollection = value; }
         }
+
 
         public MainWindow()
         {
             InitializeComponent();
-            ContactList = new ContactList();
-            //CreateLoadCommand();
-            //CreateSaveCommand();
-
-            ContactList.Add(new Contact()
-            {
-                FirstName = "First",
-                LastName = "Last",
-                PhoneNumbers = new ObservableCollection<PhoneNumber> {
-                    new PhoneNumber("801-112-2234", ContactAttributeType.Home)
-                },
-                EmailAddresses = new ObservableCollection<EmailAddress> {
-                    new EmailAddress("blake@blakerollins.com", ContactAttributeType.Work)
-                }
-            });
-
-            ContactList.Add(new Contact()
-            {
-                FirstName = "Second",
-                LastName = "other",
-                PhoneNumbers = new ObservableCollection<PhoneNumber> {
-                    new PhoneNumber("801-555-2234", ContactAttributeType.Home)
-                },
-                EmailAddresses = new ObservableCollection<EmailAddress> {
-                    new EmailAddress("blake@otherone.com", ContactAttributeType.Work)
-                }
-            });
-
+            ContactCollection = new ObservableCollection<Contact>();
             this.DataContext = this;
-        }
-
-        private void AddPhoneButton_Click(object sender, RoutedEventArgs e)
-        {
-            Contact c = (Contact)ContactListBox.SelectedItem;
-            c.PhoneNumbers.Add(new PhoneNumber());
-        }
-
-        private void AddEmailButton_Click(object sender, RoutedEventArgs e)
-        {
-            Contact c = (Contact)ContactListBox.SelectedItem;
-            c.EmailAddresses.Add(new EmailAddress());
         }
 
         private void AddContactButton_Click(object sender, RoutedEventArgs e)
         {
-            ContactList.Add(new Contact());
+            ContactCollection.Add(new Contact());
+            ContactListBox.SelectedIndex = ContactCollection.Count - 1;
         }
 
         private void RemoveContactButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ContactCollection.Remove((Contact)ContactListBox.SelectedItem);
+            ContactListBox.SelectedIndex = 0;
         }
 
 
+        private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            Serializer.SerializeObject<ObservableCollection<Contact>>(SaveFileName, ContactCollection);
+        }
+
+        private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (ContactCollection.Count != 0 && !string.IsNullOrEmpty(SaveFileName));
+        }
 
 
-        //public ICommand SaveCommand
-        //{
-        //    get;
-        //    internal set;
-        //}
+        private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFileDialog fileSelector = new SaveFileDialog();
+            fileSelector.Filter = "Contacts | *.contacts";
+            fileSelector.FilterIndex = 0;
 
-        //private bool CanExecuteSaveCommand()
-        //{
-        //    return (ContactList.Count != 0 && !string.IsNullOrEmpty(SaveFileName));
-        //}
+            bool? ok = fileSelector.ShowDialog();
+            if (ok == true)
+            {
+                SaveFileName = fileSelector.FileName;
+                Serializer.SerializeObject<ObservableCollection<Contact>>(SaveFileName, ContactCollection);
+            }
+        }
 
-        //private void CreateSaveCommand()
-        //{
-        //    SaveCommand = new RelayCommand(SaveExecute, CanExecuteSaveCommand);
-        //}
-
-        //public void SaveExecute()
-        //{
-        //    ContactList.Save(SaveFileName);
-        //}
+        private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
 
 
+        private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenFileDialog fileSelector = new OpenFileDialog();
+            fileSelector.Filter = "Contacts | *.contacts";
+            fileSelector.FilterIndex = 0;
 
+            bool? ok = fileSelector.ShowDialog();
+            if (ok == true)
+            {
+                SaveFileName = fileSelector.FileName;
+                ContactCollection.Clear();
+                ObservableCollection<Contact> col = Serializer.DeserializeObject<ObservableCollection<Contact>>(SaveFileName);
+                foreach (Contact c in col) {
+                    ContactCollection.Add(c);
+                }
+            }
+        }
 
-        //public ICommand LoadCommand
-        //{
-        //    get;
-        //    internal set;
-        //}
-
-
-        //private void CreateLoadCommand()
-        //{
-        //    LoadCommand = new RelayCommand(LoadExecute, true);
-        //}
-
-        //public void LoadExecute()
-        //{
-        //    OpenFileDialog fileSelector = new OpenFileDialog();
-        //    fileSelector.Filter = "Game of Life files|*.save";
-        //    fileSelector.FilterIndex = 0;
-
-        //    bool? clickedOK = fileSelector.ShowDialog();
-        //    if (clickedOK == true)
-        //    {
-        //        SaveFileName = fileSelector.FileName;
-        //        ContactList.Load(SaveFileName);
-        //    }
-            
-        //}
+        private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
     }
 }

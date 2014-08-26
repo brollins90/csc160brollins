@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace DataPersistence.Models
 {
+    [Serializable]
     public class Contact : INotifyPropertyChanged
     {
+        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void FirePropertyChanged(String propertyName)
@@ -30,7 +32,9 @@ namespace DataPersistence.Models
         public string FirstName
         {
             get { return _FirstName; }
-            set { _FirstName = value; }
+            set { _FirstName = value;
+            this.FirePropertyChanged("FirstName");
+            }
         }
 
         private ContactGroup _Group;
@@ -38,7 +42,11 @@ namespace DataPersistence.Models
         public ContactGroup Group
         {
             get { return _Group; }
-            set { _Group = value; }
+            set
+            {
+                _Group = value;
+                this.FirePropertyChanged("Group");
+            }
         }
         public IEnumerable<ContactGroup> ContactGroupValues
         {
@@ -53,50 +61,76 @@ namespace DataPersistence.Models
         public string LastName
         {
             get { return _LastName; }
-            set { _LastName = value; }
+            set
+            {
+                _LastName = value;
+                this.FirePropertyChanged("LastName");
+            }
         }
 
-        private ObservableCollection<EmailAddress> _EmailAddresses;
-        public ObservableCollection<EmailAddress> EmailAddresses
+        private string _EmailAddressHome;
+
+        public string EmailAddressHome
         {
-            get { return _EmailAddresses; }
-            set { _EmailAddresses = value; }
+            get { return _EmailAddressHome; }
+            set
+            {
+                _EmailAddressHome = value;
+                this.FirePropertyChanged("EmailAddressHome");
+            }
         }
 
-        private ObservableCollection<PhoneNumber> _PhoneNumbers;
-        public ObservableCollection<PhoneNumber> PhoneNumbers
+        private string _EmailAddressWork;
+
+        public string EmailAddressWork
         {
-            get { return _PhoneNumbers; }
-            set { _PhoneNumbers = value; }
+            get { return _EmailAddressWork; }
+            set
+            {
+                _EmailAddressWork = value;
+                this.FirePropertyChanged("EmailAddressWork");
+            }
         }
-        // IM
-        // Title
-        // Office
-        // Department
-        // Company
-        // Addresses
-        // Birthday
+
+        private string _PhoneNumberHome;
+
+        public string PhoneNumberHome
+        {
+            get { return _PhoneNumberHome; }
+            set
+            {
+                _PhoneNumberHome = value;
+                this.FirePropertyChanged("PhoneNumberHome");
+            }
+        }
+
+        private string _PhoneNumberWork;
+
+        public string PhoneNumberWork
+        {
+            get { return _PhoneNumberWork; }
+            set
+            {
+                _PhoneNumberWork = value;
+                this.FirePropertyChanged("PhoneNumberWork");
+            }
+        }
 
         
         public Contact() {
-            PhoneNumbers = new ObservableCollection<PhoneNumber>();
-            EmailAddresses = new ObservableCollection<EmailAddress>();
+            FirstName = "Name not set";
             Group = ContactGroup.None;
         }
 
         public Contact(Contact toCopy)
-        {
-            
+        {            
             this.FirstName = toCopy.FirstName;
             this.LastName = toCopy.LastName;
-            foreach(EmailAddress e in toCopy.EmailAddresses) {
-                this.EmailAddresses.Add(new EmailAddress(e));
-            }
-            foreach(PhoneNumber p in toCopy.PhoneNumbers) {
-                this.PhoneNumbers.Add(new PhoneNumber(p));
-            }
+            this.EmailAddressHome = toCopy.EmailAddressHome;
+            this.EmailAddressWork = toCopy.EmailAddressWork;
+            this.PhoneNumberHome = toCopy.PhoneNumberHome;
+            this.PhoneNumberWork = toCopy.PhoneNumberWork;
             this.Group = toCopy.Group;
         }
-
     }
 }

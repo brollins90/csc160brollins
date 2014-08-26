@@ -53,6 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Serializer.cs" />
     <Page Include="ContactManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,7 +70,6 @@
   <ItemGroup>
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactAttributeType.cs" />
-    <Compile Include="Models\ContactList.cs" />
     <Compile Include="Models\EmailAddress.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
