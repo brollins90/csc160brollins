@@ -19,7 +19,9 @@ using System.Windows.Shapes;
 namespace DataPersistence
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// A simple contact list that serializes data to a file
+    /// 
+    /// Blake Rollins
     /// </summary>
     public partial class MainWindow : Window
     {
