@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ContactModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ContactModelStoreContainer">
+    <EntitySet Name="ContactEFs" EntityType="ContactModel.Store.ContactEFs" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="ContactEFs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="true" DefaultValue="Not Set" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Group" Type="int" Nullable="false" />
+    <Property Name="EmailAddressHome" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EmailAddressWork" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberHome" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PhoneNumberWork" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ContactModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ContactModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ContactEFs" EntityType="ContactModel.ContactEF" />
+        </EntityContainer>
+        <EntityType Name="ContactEF">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="true" DefaultValue="Not Set" />
+          <Property Name="LastName" Type="String" Nullable="true" />
+          <Property Name="Group" Type="ContactModel.ContactGroup" Nullable="false" />
+          <Property Name="EmailAddressHome" Type="String" Nullable="true" />
+          <Property Name="EmailAddressWork" Type="String" Nullable="true" />
+          <Property Name="PhoneNumberHome" Type="String" Nullable="true" />
+          <Property Name="PhoneNumberWork" Type="String" Nullable="true" />
+        </EntityType>
+        <EnumType Name="ContactGroup">
+          <Member Name="Family" />
+          <Member Name="Friends" />
+          <Member Name="Coworkers" />
+          <Member Name="None" />
+          <Member Name="Other" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ContactModelStoreContainer" CdmEntityContainer="ContactModelContainer">
+    <EntitySetMapping Name="ContactEFs">
+      <EntityTypeMapping TypeName="IsTypeOf(ContactModel.ContactEF)">
+        <MappingFragment StoreEntitySet="ContactEFs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="EmailAddressHome" ColumnName="EmailAddressHome" />
+          <ScalarProperty Name="EmailAddressWork" ColumnName="EmailAddressWork" />
+          <ScalarProperty Name="PhoneNumberHome" ColumnName="PhoneNumberHome" />
+          <ScalarProperty Name="PhoneNumberWork" ColumnName="PhoneNumberWork" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
