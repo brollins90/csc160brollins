@@ -111,7 +111,8 @@ if (!String.IsNullOrEmpty(codeNamespace))
 #>
 <#+
 
-private void WriteFunctionImport(TypeMapper typeMapper, CodeStringGenerator codeStringGenerator, EdmFunction edmFunction, string modelNamespace, bool includeMergeOption)
+
+ void WriteFunctionImport(TypeMapper typeMapper, CodeStringGenerator codeStringGenerator, EdmFunction edmFunction, string modelNamespace, bool includeMergeOption)
 {
     if (typeMapper.IsComposable(edmFunction))
     {

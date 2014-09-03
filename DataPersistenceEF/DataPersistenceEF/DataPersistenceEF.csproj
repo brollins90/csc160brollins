@@ -83,7 +83,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Serializer.cs" />
+    <Compile Include="TrulyObservableCollection.cs" />
     <Page Include="ContactManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

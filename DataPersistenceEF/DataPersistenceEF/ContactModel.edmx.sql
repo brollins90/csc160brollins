@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/27/2014 16:10:32
+-- Date Created: 09/02/2014 20:39:33
 -- Generated from EDMX file: C:\_\src\Neumont\CSC160-SC\DataPersistenceEF\DataPersistenceEF\ContactModel.edmx
 -- --------------------------------------------------
 

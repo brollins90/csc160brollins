@@ -12,20 +12,37 @@ namespace DataPersistence
     using System;
     using System.Collections.Generic;
     
-    public partial class ContactEF
+    using System.ComponentModel;
+    
+    public partial class ContactEF : INotifyPropertyChanged
     {
+    
+    	public event PropertyChangedEventHandler PropertyChanged;
+    	protected virtual void OnPropertyChanged(string propertyName)
+    	{
+    			PropertyChangedEventHandler handler = PropertyChanged;
+    			if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+    	}
         public ContactEF()
         {
             this.FirstName = "Not Set";
         }
     
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public ContactGroup Group { get; set; }
-        public string EmailAddressHome { get; set; }
-        public string EmailAddressWork { get; set; }
-        public string PhoneNumberHome { get; set; }
-        public string PhoneNumberWork { get; set; }
+        private int _id;
+        public int Id { get { return _id; } set { _id = value; OnPropertyChanged("Id");} }
+        private string _firstname;
+        public string FirstName { get { return _firstname; } set { _firstname = value; OnPropertyChanged("FirstName");} }
+        private string _lastname;
+        public string LastName { get { return _lastname; } set { _lastname = value; OnPropertyChanged("LastName");} }
+        private ContactGroup _group;
+        public ContactGroup Group { get { return _group; } set { _group = value; OnPropertyChanged("Group");} }
+        private string _emailaddresshome;
+        public string EmailAddressHome { get { return _emailaddresshome; } set { _emailaddresshome = value; OnPropertyChanged("EmailAddressHome");} }
+        private string _emailaddresswork;
+        public string EmailAddressWork { get { return _emailaddresswork; } set { _emailaddresswork = value; OnPropertyChanged("EmailAddressWork");} }
+        private string _phonenumberhome;
+        public string PhoneNumberHome { get { return _phonenumberhome; } set { _phonenumberhome = value; OnPropertyChanged("PhoneNumberHome");} }
+        private string _phonenumberwork;
+        public string PhoneNumberWork { get { return _phonenumberwork; } set { _phonenumberwork = value; OnPropertyChanged("PhoneNumberWork");} }
     }
 }

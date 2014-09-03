@@ -25,7 +25,7 @@
             </DockPanel>
             <ListBox Grid.Row="1" Grid.Column="0" x:Name="ContactListBox"
                     ItemsSource="{Binding Path=ContactCollection, Mode=TwoWay}"
-                    SelectedIndex="0">
+                    SelectedIndex="0" SelectionChanged="ContactListBox_SelectionChanged">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
